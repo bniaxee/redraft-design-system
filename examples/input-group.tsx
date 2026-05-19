@@ -1,24 +1,22 @@
-"use client"
-
-import { useState } from "react"
 import {
-  CopyIcon,
-  EyeIcon,
-  EyeOffIcon,
   LinkIcon,
   MailIcon,
   SearchIcon,
-  XIcon,
 } from "lucide-react"
 
 import {
   InputGroup,
   InputGroupAddon,
-  InputGroupButton,
   InputGroupInput,
   InputGroupText,
-  InputGroupTextarea,
 } from "@/components/ui/input-group"
+
+import {
+  InputGroupButtonDemo,
+  InputGroupTextareaDemo,
+} from "@/components/docs/examples/input-group-client"
+
+export { InputGroupButtonDemo, InputGroupTextareaDemo }
 
 // --- Default ---
 
@@ -234,6 +232,12 @@ export function InputGroupTextExample() {
           <InputGroupText>.com</InputGroupText>
         </InputGroupAddon>
       </InputGroup>
+      <InputGroup>
+        <InputGroupInput placeholder="username" />
+        <InputGroupAddon align="inline-end">
+          <InputGroupText>@acme.com</InputGroupText>
+        </InputGroupAddon>
+      </InputGroup>
     </div>
   )
 }`
@@ -259,16 +263,22 @@ function InputGroupTextDemo() {
           <InputGroupText>.com</InputGroupText>
         </InputGroupAddon>
       </InputGroup>
+      <InputGroup>
+        <InputGroupInput placeholder="username" />
+        <InputGroupAddon align="inline-end">
+          <InputGroupText>@acme.com</InputGroupText>
+        </InputGroupAddon>
+      </InputGroup>
     </div>
   )
 }
 
-// --- Button ---
+// --- Button (code string only — demo is in input-group-client.tsx) ---
 
 const inputGroupButtonCode = `"use client"
 
 import { useState } from "react"
-import { CopyIcon, EyeIcon, EyeOffIcon, XIcon } from "lucide-react"
+import { CheckIcon, CopyIcon, EyeIcon, EyeOffIcon, SearchIcon } from "lucide-react"
 
 import {
   InputGroup,
@@ -279,28 +289,28 @@ import {
 } from "@/components/ui/input-group"
 
 export function InputGroupButtonExample() {
+  const [copied, setCopied] = useState(false)
   const [visible, setVisible] = useState(false)
-  const [query, setQuery] = useState("")
+
+  function handleCopy() {
+    navigator.clipboard.writeText("https://acme.com/invite/bni4x2")
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
 
   return (
     <div className="flex w-full max-w-sm flex-col gap-3">
       <InputGroup>
-        <InputGroupInput
-          placeholder="Search..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-        {query && (
-          <InputGroupAddon align="inline-end">
-            <InputGroupButton
-              size="icon-sm"
-              aria-label="Clear"
-              onClick={() => setQuery("")}
-            >
-              <XIcon />
-            </InputGroupButton>
-          </InputGroupAddon>
-        )}
+        <InputGroupInput readOnly value="https://acme.com/invite/bni4x2" />
+        <InputGroupAddon align="inline-end">
+          <InputGroupButton
+            size="icon-sm"
+            aria-label="Copy link"
+            onClick={handleCopy}
+          >
+            {copied ? <CheckIcon /> : <CopyIcon />}
+          </InputGroupButton>
+        </InputGroupAddon>
       </InputGroup>
 
       <InputGroup>
@@ -321,12 +331,14 @@ export function InputGroupButtonExample() {
 
       <InputGroup>
         <InputGroupAddon align="inline-start">
-          <InputGroupText>API key</InputGroupText>
+          <InputGroupText>
+            <SearchIcon />
+          </InputGroupText>
         </InputGroupAddon>
-        <InputGroupInput readOnly value="sk-••••••••••••••••" />
+        <InputGroupInput placeholder="Search docs..." />
         <InputGroupAddon align="inline-end">
-          <InputGroupButton size="icon-sm" aria-label="Copy key">
-            <CopyIcon />
+          <InputGroupButton variant="secondary" size="sm">
+            Search
           </InputGroupButton>
         </InputGroupAddon>
       </InputGroup>
@@ -334,65 +346,13 @@ export function InputGroupButtonExample() {
   )
 }`
 
-function InputGroupButtonDemo() {
-  const [visible, setVisible] = useState(false)
-  const [query, setQuery] = useState("")
+// --- Textarea (code string only — demo is in input-group-client.tsx) ---
 
-  return (
-    <div className="flex w-full max-w-sm flex-col gap-3">
-      <InputGroup>
-        <InputGroupInput
-          placeholder="Search..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-        {query && (
-          <InputGroupAddon align="inline-end">
-            <InputGroupButton
-              size="icon-sm"
-              aria-label="Clear"
-              onClick={() => setQuery("")}
-            >
-              <XIcon />
-            </InputGroupButton>
-          </InputGroupAddon>
-        )}
-      </InputGroup>
+const inputGroupTextareaCode = `"use client"
 
-      <InputGroup>
-        <InputGroupInput
-          type={visible ? "text" : "password"}
-          placeholder="Password"
-        />
-        <InputGroupAddon align="inline-end">
-          <InputGroupButton
-            size="icon-sm"
-            aria-label={visible ? "Hide password" : "Show password"}
-            onClick={() => setVisible((v) => !v)}
-          >
-            {visible ? <EyeOffIcon /> : <EyeIcon />}
-          </InputGroupButton>
-        </InputGroupAddon>
-      </InputGroup>
+import { useState } from "react"
 
-      <InputGroup>
-        <InputGroupAddon align="inline-start">
-          <InputGroupText>API key</InputGroupText>
-        </InputGroupAddon>
-        <InputGroupInput readOnly value="sk-••••••••••••••••" />
-        <InputGroupAddon align="inline-end">
-          <InputGroupButton size="icon-sm" aria-label="Copy key">
-            <CopyIcon />
-          </InputGroupButton>
-        </InputGroupAddon>
-      </InputGroup>
-    </div>
-  )
-}
-
-// --- Textarea ---
-
-const inputGroupTextareaCode = `import {
+import {
   InputGroup,
   InputGroupAddon,
   InputGroupButton,
@@ -400,45 +360,45 @@ const inputGroupTextareaCode = `import {
   InputGroupTextarea,
 } from "@/components/ui/input-group"
 
+const MAX_CHARS = 280
+
 export function InputGroupTextareaExample() {
+  const [value, setValue] = useState("")
+  const remaining = MAX_CHARS - value.length
+
   return (
     <div className="w-full max-w-sm">
       <InputGroup>
         <InputGroupAddon align="block-start">
-          <InputGroupText>Message</InputGroupText>
+          <InputGroupText>Post</InputGroupText>
         </InputGroupAddon>
-        <InputGroupTextarea placeholder="Write a message..." rows={4} />
-        <InputGroupAddon align="block-end">
-          <InputGroupButton size="xs">Send</InputGroupButton>
+        <InputGroupTextarea
+          placeholder="What's on your mind?"
+          rows={4}
+          maxLength={MAX_CHARS}
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+        />
+        <InputGroupAddon align="block-end" className="justify-between">
+          <InputGroupText
+            className={remaining <= 20 ? "text-destructive" : ""}
+          >
+            {remaining} left
+          </InputGroupText>
+          <InputGroupButton variant="default" size="xs" disabled={value.length === 0}>
+            Publish
+          </InputGroupButton>
         </InputGroupAddon>
       </InputGroup>
     </div>
   )
 }`
 
-function InputGroupTextareaDemo() {
-  return (
-    <div className="w-full max-w-sm">
-      <InputGroup>
-        <InputGroupAddon align="block-start">
-          <InputGroupText>Message</InputGroupText>
-        </InputGroupAddon>
-        <InputGroupTextarea placeholder="Write a message..." rows={4} />
-        <InputGroupAddon align="block-end">
-          <InputGroupButton size="xs">Send</InputGroupButton>
-        </InputGroupAddon>
-      </InputGroup>
-    </div>
-  )
-}
-
 export {
   InputGroupDefaultDemo,
   InputGroupAlignDemo,
   InputGroupIconDemo,
   InputGroupTextDemo,
-  InputGroupButtonDemo,
-  InputGroupTextareaDemo,
   inputGroupDefaultCode,
   inputGroupAlignCode,
   inputGroupIconCode,
