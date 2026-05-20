@@ -1,22 +1,43 @@
 import {
+  CodeIcon,
+  CopyIcon,
+  CreditCardIcon,
   LinkIcon,
+  LockIcon,
   MailIcon,
+  PlayIcon,
+  RefreshCwIcon,
   SearchIcon,
+  UserIcon,
 } from "lucide-react"
 
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 import {
   InputGroup,
   InputGroupAddon,
+  InputGroupButton,
   InputGroupInput,
   InputGroupText,
+  InputGroupTextarea,
 } from "@/components/ui/input-group"
+import { Kbd } from "@/components/ui/kbd"
+import { Label } from "@/components/ui/label"
+import { Spinner } from "@/components/ui/spinner"
 
 import {
   InputGroupButtonDemo,
-  InputGroupTextareaDemo,
+  InputGroupDropdownDemo,
 } from "@/components/docs/examples/input-group-client"
 
-export { InputGroupButtonDemo, InputGroupTextareaDemo }
+export { InputGroupButtonDemo, InputGroupDropdownDemo }
 
 // --- Default ---
 
@@ -149,30 +170,40 @@ function InputGroupAlignDemo() {
 // --- Icon ---
 
 const inputGroupIconCode = `import {
+  CreditCardIcon,
+  LockIcon,
+  MailIcon,
+  SearchIcon,
+} from "lucide-react"
+
+import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
-  InputGroupText,
 } from "@/components/ui/input-group"
-import { MailIcon, SearchIcon } from "lucide-react"
 
-export function InputGroupIcon() {
+export function InputGroupIconExample() {
   return (
     <div className="flex w-full max-w-sm flex-col gap-3">
       <InputGroup>
-        <InputGroupAddon align="inline-start">
-          <InputGroupText>
-            <SearchIcon />
-          </InputGroupText>
+        <InputGroupAddon>
+          <SearchIcon />
         </InputGroupAddon>
-        <InputGroupInput placeholder="Search..." />
+        <InputGroupInput placeholder="Search products..." />
       </InputGroup>
       <InputGroup>
         <InputGroupInput type="email" placeholder="you@example.com" />
         <InputGroupAddon align="inline-end">
-          <InputGroupText>
-            <MailIcon />
-          </InputGroupText>
+          <MailIcon />
+        </InputGroupAddon>
+      </InputGroup>
+      <InputGroup>
+        <InputGroupAddon>
+          <CreditCardIcon />
+        </InputGroupAddon>
+        <InputGroupInput placeholder="Card number" />
+        <InputGroupAddon align="inline-end">
+          <LockIcon />
         </InputGroupAddon>
       </InputGroup>
     </div>
@@ -183,19 +214,24 @@ function InputGroupIconDemo() {
   return (
     <div className="flex w-full max-w-sm flex-col gap-3">
       <InputGroup>
-        <InputGroupAddon align="inline-start">
-          <InputGroupText>
-            <SearchIcon />
-          </InputGroupText>
+        <InputGroupAddon>
+          <SearchIcon />
         </InputGroupAddon>
-        <InputGroupInput placeholder="Search..." />
+        <InputGroupInput placeholder="Search products..." />
       </InputGroup>
       <InputGroup>
         <InputGroupInput type="email" placeholder="you@example.com" />
         <InputGroupAddon align="inline-end">
-          <InputGroupText>
-            <MailIcon />
-          </InputGroupText>
+          <MailIcon />
+        </InputGroupAddon>
+      </InputGroup>
+      <InputGroup>
+        <InputGroupAddon>
+          <CreditCardIcon />
+        </InputGroupAddon>
+        <InputGroupInput placeholder="Card number" />
+        <InputGroupAddon align="inline-end">
+          <LockIcon />
         </InputGroupAddon>
       </InputGroup>
     </div>
@@ -215,7 +251,7 @@ export function InputGroupTextExample() {
   return (
     <div className="flex w-full max-w-sm flex-col gap-3">
       <InputGroup>
-        <InputGroupAddon align="inline-start">
+        <InputGroupAddon>
           <InputGroupText>$</InputGroupText>
         </InputGroupAddon>
         <InputGroupInput type="number" placeholder="0.00" />
@@ -224,18 +260,15 @@ export function InputGroupTextExample() {
         </InputGroupAddon>
       </InputGroup>
       <InputGroup>
-        <InputGroupAddon align="inline-start">
-          <InputGroupText>https://</InputGroupText>
+        <InputGroupAddon>
+          <InputGroupText>+1</InputGroupText>
         </InputGroupAddon>
-        <InputGroupInput placeholder="yoursite" />
-        <InputGroupAddon align="inline-end">
-          <InputGroupText>.com</InputGroupText>
-        </InputGroupAddon>
+        <InputGroupInput type="tel" placeholder="(555) 000-0000" />
       </InputGroup>
       <InputGroup>
-        <InputGroupInput placeholder="username" />
+        <InputGroupInput placeholder="yourapp" />
         <InputGroupAddon align="inline-end">
-          <InputGroupText>@acme.com</InputGroupText>
+          <InputGroupText>.acme.io</InputGroupText>
         </InputGroupAddon>
       </InputGroup>
     </div>
@@ -246,7 +279,7 @@ function InputGroupTextDemo() {
   return (
     <div className="flex w-full max-w-sm flex-col gap-3">
       <InputGroup>
-        <InputGroupAddon align="inline-start">
+        <InputGroupAddon>
           <InputGroupText>$</InputGroupText>
         </InputGroupAddon>
         <InputGroupInput type="number" placeholder="0.00" />
@@ -255,21 +288,59 @@ function InputGroupTextDemo() {
         </InputGroupAddon>
       </InputGroup>
       <InputGroup>
-        <InputGroupAddon align="inline-start">
-          <InputGroupText>https://</InputGroupText>
+        <InputGroupAddon>
+          <InputGroupText>+1</InputGroupText>
         </InputGroupAddon>
-        <InputGroupInput placeholder="yoursite" />
-        <InputGroupAddon align="inline-end">
-          <InputGroupText>.com</InputGroupText>
-        </InputGroupAddon>
+        <InputGroupInput type="tel" placeholder="(555) 000-0000" />
       </InputGroup>
       <InputGroup>
-        <InputGroupInput placeholder="username" />
+        <InputGroupInput placeholder="yourapp" />
         <InputGroupAddon align="inline-end">
-          <InputGroupText>@acme.com</InputGroupText>
+          <InputGroupText>.acme.io</InputGroupText>
         </InputGroupAddon>
       </InputGroup>
     </div>
+  )
+}
+
+// --- Kbd ---
+
+const inputGroupKbdCode = `import { SearchIcon } from "lucide-react"
+
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group"
+import { Kbd } from "@/components/ui/kbd"
+
+export function InputGroupKbdExample() {
+  return (
+    <InputGroup className="w-full max-w-sm">
+      <InputGroupAddon>
+        <SearchIcon />
+      </InputGroupAddon>
+      <InputGroupInput placeholder="Search documentation..." />
+      <InputGroupAddon align="inline-end">
+        <Kbd>⌘</Kbd>
+        <Kbd>K</Kbd>
+      </InputGroupAddon>
+    </InputGroup>
+  )
+}`
+
+function InputGroupKbdDemo() {
+  return (
+    <InputGroup className="w-full max-w-sm">
+      <InputGroupAddon>
+        <SearchIcon />
+      </InputGroupAddon>
+      <InputGroupInput placeholder="Search documentation..." />
+      <InputGroupAddon align="inline-end">
+        <Kbd>⌘</Kbd>
+        <Kbd>K</Kbd>
+      </InputGroupAddon>
+    </InputGroup>
   )
 }
 
@@ -278,14 +349,13 @@ function InputGroupTextDemo() {
 const inputGroupButtonCode = `"use client"
 
 import { useState } from "react"
-import { CheckIcon, CopyIcon, EyeIcon, EyeOffIcon, SearchIcon } from "lucide-react"
+import { CheckIcon, CopyIcon, EyeIcon, EyeOffIcon } from "lucide-react"
 
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupButton,
   InputGroupInput,
-  InputGroupText,
 } from "@/components/ui/input-group"
 
 export function InputGroupButtonExample() {
@@ -293,7 +363,7 @@ export function InputGroupButtonExample() {
   const [visible, setVisible] = useState(false)
 
   function handleCopy() {
-    navigator.clipboard.writeText("https://acme.com/invite/bni4x2")
+    navigator.clipboard.writeText("sk-live-a1b2c3d4e5f6g7h8")
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }
@@ -301,11 +371,11 @@ export function InputGroupButtonExample() {
   return (
     <div className="flex w-full max-w-sm flex-col gap-3">
       <InputGroup>
-        <InputGroupInput readOnly value="https://acme.com/invite/bni4x2" />
+        <InputGroupInput readOnly value="sk-live-a1b2c3d4e5f6g7h8" />
         <InputGroupAddon align="inline-end">
           <InputGroupButton
             size="icon-sm"
-            aria-label="Copy link"
+            aria-label="Copy API key"
             onClick={handleCopy}
           >
             {copied ? <CheckIcon /> : <CopyIcon />}
@@ -330,15 +400,10 @@ export function InputGroupButtonExample() {
       </InputGroup>
 
       <InputGroup>
-        <InputGroupAddon align="inline-start">
-          <InputGroupText>
-            <SearchIcon />
-          </InputGroupText>
-        </InputGroupAddon>
-        <InputGroupInput placeholder="Search docs..." />
+        <InputGroupInput placeholder="Promo code" />
         <InputGroupAddon align="inline-end">
           <InputGroupButton variant="secondary" size="sm">
-            Search
+            Apply
           </InputGroupButton>
         </InputGroupAddon>
       </InputGroup>
@@ -346,11 +411,14 @@ export function InputGroupButtonExample() {
   )
 }`
 
-// --- Textarea (code string only — demo is in input-group-client.tsx) ---
+// --- Textarea ---
 
-const inputGroupTextareaCode = `"use client"
-
-import { useState } from "react"
+const inputGroupTextareaCode = `import {
+  CodeIcon,
+  CopyIcon,
+  PlayIcon,
+  RefreshCwIcon,
+} from "lucide-react"
 
 import {
   InputGroup,
@@ -360,33 +428,40 @@ import {
   InputGroupTextarea,
 } from "@/components/ui/input-group"
 
-const MAX_CHARS = 280
-
 export function InputGroupTextareaExample() {
-  const [value, setValue] = useState("")
-  const remaining = MAX_CHARS - value.length
-
   return (
     <div className="w-full max-w-sm">
       <InputGroup>
-        <InputGroupAddon align="block-start">
-          <InputGroupText>Post</InputGroupText>
+        <InputGroupAddon align="block-start" className="border-b">
+          <InputGroupText className="font-mono font-medium">
+            <CodeIcon />
+            script.js
+          </InputGroupText>
+          <InputGroupButton
+            size="icon-xs"
+            className="ml-auto"
+            aria-label="Refresh"
+          >
+            <RefreshCwIcon />
+          </InputGroupButton>
+          <InputGroupButton size="icon-xs" variant="ghost" aria-label="Copy">
+            <CopyIcon />
+          </InputGroupButton>
         </InputGroupAddon>
         <InputGroupTextarea
-          placeholder="What's on your mind?"
-          rows={4}
-          maxLength={MAX_CHARS}
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
+          placeholder="console.log('Hello, world!');"
+          className="font-mono text-sm"
+          rows={5}
         />
-        <InputGroupAddon align="block-end" className="justify-between">
-          <InputGroupText
-            className={remaining <= 20 ? "text-destructive" : ""}
+        <InputGroupAddon align="block-end" className="border-t">
+          <InputGroupText>Line 1, Column 1</InputGroupText>
+          <InputGroupButton
+            size="xs"
+            className="ml-auto"
+            variant="default"
           >
-            {remaining} left
-          </InputGroupText>
-          <InputGroupButton variant="default" size="xs" disabled={value.length === 0}>
-            Publish
+            <PlayIcon data-icon="inline-start" />
+            Run
           </InputGroupButton>
         </InputGroupAddon>
       </InputGroup>
@@ -394,15 +469,336 @@ export function InputGroupTextareaExample() {
   )
 }`
 
+function InputGroupTextareaDemo() {
+  return (
+    <div className="w-full max-w-sm">
+      <InputGroup>
+        <InputGroupAddon align="block-start" className="border-b">
+          <InputGroupText className="font-mono font-medium">
+            <CodeIcon />
+            script.js
+          </InputGroupText>
+          <InputGroupButton
+            size="icon-xs"
+            className="ml-auto"
+            aria-label="Refresh"
+          >
+            <RefreshCwIcon />
+          </InputGroupButton>
+          <InputGroupButton size="icon-xs" variant="ghost" aria-label="Copy">
+            <CopyIcon />
+          </InputGroupButton>
+        </InputGroupAddon>
+        <InputGroupTextarea
+          placeholder="console.log('Hello, world!');"
+          className="font-mono text-sm"
+          rows={5}
+        />
+        <InputGroupAddon align="block-end" className="border-t">
+          <InputGroupText>Line 1, Column 1</InputGroupText>
+          <InputGroupButton size="xs" className="ml-auto" variant="default">
+            <PlayIcon data-icon="inline-start" />
+            Run
+          </InputGroupButton>
+        </InputGroupAddon>
+      </InputGroup>
+    </div>
+  )
+}
+
+// --- Label ---
+
+const inputGroupLabelCode = `import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+  InputGroupText,
+} from "@/components/ui/input-group"
+import { Label } from "@/components/ui/label"
+
+export function InputGroupLabelExample() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-4">
+      <div className="flex flex-col gap-1.5">
+        <Label htmlFor="handle">Handle</Label>
+        <InputGroup>
+          <InputGroupAddon>
+            <InputGroupText>@</InputGroupText>
+          </InputGroupAddon>
+          <InputGroupInput id="handle" placeholder="johndoe" />
+        </InputGroup>
+      </div>
+      <div className="flex flex-col gap-1.5">
+        <Label htmlFor="site">Website</Label>
+        <InputGroup>
+          <InputGroupAddon>
+            <InputGroupText>https://</InputGroupText>
+          </InputGroupAddon>
+          <InputGroupInput id="site" type="url" placeholder="yoursite.com" />
+        </InputGroup>
+      </div>
+    </div>
+  )
+}`
+
+function InputGroupLabelDemo() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-4">
+      <div className="flex flex-col gap-1.5">
+        <Label htmlFor="handle">Handle</Label>
+        <InputGroup>
+          <InputGroupAddon>
+            <InputGroupText>@</InputGroupText>
+          </InputGroupAddon>
+          <InputGroupInput id="handle" placeholder="johndoe" />
+        </InputGroup>
+      </div>
+      <div className="flex flex-col gap-1.5">
+        <Label htmlFor="site">Website</Label>
+        <InputGroup>
+          <InputGroupAddon>
+            <InputGroupText>https://</InputGroupText>
+          </InputGroupAddon>
+          <InputGroupInput id="site" type="url" placeholder="yoursite.com" />
+        </InputGroup>
+      </div>
+    </div>
+  )
+}
+
+// --- Dropdown (code string only — demo is in input-group-client.tsx) ---
+
+const inputGroupDropdownCode = `"use client"
+
+import { useState } from "react"
+import { ChevronDownIcon, SearchIcon } from "lucide-react"
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from "@/components/ui/input-group"
+
+const SCOPES = ["All", "Products", "Docs", "Users"]
+
+export function InputGroupDropdownExample() {
+  const [scope, setScope] = useState("All")
+
+  return (
+    <InputGroup className="w-full max-w-sm">
+      <InputGroupAddon>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <InputGroupButton size="xs" className="gap-1">
+              {scope}
+              <ChevronDownIcon />
+            </InputGroupButton>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuGroup>
+              {SCOPES.map((s) => (
+                <DropdownMenuItem key={s} onSelect={() => setScope(s)}>
+                  {s}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </InputGroupAddon>
+      <InputGroupAddon>
+        <SearchIcon />
+      </InputGroupAddon>
+      <InputGroupInput placeholder="Search..." />
+    </InputGroup>
+  )
+}`
+
+// --- Spinner ---
+
+const inputGroupSpinnerCode = `import { SearchIcon } from "lucide-react"
+
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group"
+import { Spinner } from "@/components/ui/spinner"
+
+export function InputGroupSpinnerExample() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-3">
+      <InputGroup>
+        <InputGroupAddon>
+          <SearchIcon />
+        </InputGroupAddon>
+        <InputGroupInput defaultValue="react hooks" readOnly />
+        <InputGroupAddon align="inline-end">
+          <Spinner />
+        </InputGroupAddon>
+      </InputGroup>
+      <InputGroup>
+        <InputGroupInput
+          type="email"
+          defaultValue="jane@example.com"
+          readOnly
+        />
+        <InputGroupAddon align="inline-end">
+          <Spinner />
+        </InputGroupAddon>
+      </InputGroup>
+    </div>
+  )
+}`
+
+function InputGroupSpinnerDemo() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-3">
+      <InputGroup>
+        <InputGroupAddon>
+          <SearchIcon />
+        </InputGroupAddon>
+        <InputGroupInput defaultValue="react hooks" readOnly />
+        <InputGroupAddon align="inline-end">
+          <Spinner />
+        </InputGroupAddon>
+      </InputGroup>
+      <InputGroup>
+        <InputGroupInput
+          type="email"
+          defaultValue="jane@example.com"
+          readOnly
+        />
+        <InputGroupAddon align="inline-end">
+          <Spinner />
+        </InputGroupAddon>
+      </InputGroup>
+    </div>
+  )
+}
+
+// --- In card ---
+
+const inputGroupInCardCode = `import { MailIcon, UserIcon } from "lucide-react"
+
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group"
+import { Label } from "@/components/ui/label"
+
+export function InputGroupInCardExample() {
+  return (
+    <Card className="w-full max-w-sm">
+      <CardHeader>
+        <CardTitle>Profile</CardTitle>
+        <CardDescription>Update your public profile.</CardDescription>
+      </CardHeader>
+      <CardContent className="flex flex-col gap-3">
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="card-name">Full name</Label>
+          <InputGroup>
+            <InputGroupAddon>
+              <UserIcon />
+            </InputGroupAddon>
+            <InputGroupInput id="card-name" placeholder="Jane Doe" />
+          </InputGroup>
+        </div>
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="card-email">Email</Label>
+          <InputGroup>
+            <InputGroupAddon>
+              <MailIcon />
+            </InputGroupAddon>
+            <InputGroupInput
+              id="card-email"
+              type="email"
+              placeholder="jane@example.com"
+            />
+          </InputGroup>
+        </div>
+      </CardContent>
+      <CardFooter className="border-t justify-end">
+        <Button size="sm">Save changes</Button>
+      </CardFooter>
+    </Card>
+  )
+}`
+
+function InputGroupInCardDemo() {
+  return (
+    <Card className="w-full max-w-sm">
+      <CardHeader>
+        <CardTitle>Profile</CardTitle>
+        <CardDescription>Update your public profile.</CardDescription>
+      </CardHeader>
+      <CardContent className="flex flex-col gap-3">
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="card-name">Full name</Label>
+          <InputGroup>
+            <InputGroupAddon>
+              <UserIcon />
+            </InputGroupAddon>
+            <InputGroupInput id="card-name" placeholder="Jane Doe" />
+          </InputGroup>
+        </div>
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="card-email">Email</Label>
+          <InputGroup>
+            <InputGroupAddon>
+              <MailIcon />
+            </InputGroupAddon>
+            <InputGroupInput
+              id="card-email"
+              type="email"
+              placeholder="jane@example.com"
+            />
+          </InputGroup>
+        </div>
+      </CardContent>
+      <CardFooter className="border-t justify-end">
+        <Button size="sm">Save changes</Button>
+      </CardFooter>
+    </Card>
+  )
+}
+
 export {
   InputGroupDefaultDemo,
   InputGroupAlignDemo,
   InputGroupIconDemo,
   InputGroupTextDemo,
+  InputGroupKbdDemo,
+  InputGroupLabelDemo,
+  InputGroupSpinnerDemo,
+  InputGroupInCardDemo,
+  InputGroupTextareaDemo,
   inputGroupDefaultCode,
   inputGroupAlignCode,
   inputGroupIconCode,
   inputGroupTextCode,
+  inputGroupKbdCode,
+  inputGroupLabelCode,
+  inputGroupDropdownCode,
+  inputGroupSpinnerCode,
+  inputGroupInCardCode,
   inputGroupButtonCode,
   inputGroupTextareaCode,
 }
