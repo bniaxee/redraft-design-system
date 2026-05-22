@@ -537,9 +537,11 @@ import {
   type VisibilityState,
 } from "@tanstack/react-table"
 import { ChevronDown, ListFilter } from "lucide-react"
+import type { DateRange } from "react-day-picker"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { Calendar } from "@/components/ui/calendar"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
   DropdownMenu,
@@ -598,15 +600,15 @@ const multiValueFilter: FilterFn<any> = (row, columnId, filterValues: string[]) 
   filterValues.includes(row.getValue(columnId) as string)
 multiValueFilter.autoRemove = (val: string[]) => !val?.length
 
-const dateRangeFilter: FilterFn<any> = (row, columnId, filterValue: [string, string]) => {
-  const [from, to] = filterValue ?? ["", ""]
+const dateRangeFilter: FilterFn<any> = (row, columnId, filterValue: DateRange) => {
+  const { from, to } = filterValue ?? {}
   const cellDate = new Date(row.getValue(columnId) as string)
-  if (from && to) return cellDate >= new Date(from) && cellDate <= new Date(to)
-  if (from) return cellDate >= new Date(from)
-  if (to) return cellDate <= new Date(to)
+  if (from && to) return cellDate >= from && cellDate <= to
+  if (from) return cellDate >= from
+  if (to) return cellDate <= to
   return true
 }
-dateRangeFilter.autoRemove = (val: [string, string]) => !val?.[0] && !val?.[1]
+dateRangeFilter.autoRemove = (val: DateRange) => !val?.from && !val?.to
 
 function SearchableFilterHeader({
   column,
@@ -766,8 +768,8 @@ const columns: ColumnDef<Transaction>[] = [
     accessorKey: "date",
     filterFn: dateRangeFilter,
     header: ({ column }) => {
-      const [from, to] = (column.getFilterValue() as [string, string]) ?? ["", ""]
-      const isActive = !!(from || to)
+      const range = (column.getFilterValue() as DateRange) ?? {}
+      const isActive = !!(range.from || range.to)
       return (
         <div className="flex items-center gap-1">
           <span>Date</span>
@@ -780,39 +782,15 @@ const columns: ColumnDef<Transaction>[] = [
                 <ListFilter className="h-3.5 w-3.5" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-52 p-3" align="start">
-              <div className="space-y-2">
-                <div>
-                  <p className="mb-1 text-xs text-muted-foreground">From</p>
-                  <Input
-                    type="date"
-                    value={from ?? ""}
-                    onChange={(e) =>
-                      column.setFilterValue(
-                        e.target.value || to
-                          ? [e.target.value, to ?? ""]
-                          : undefined
-                      )
-                    }
-                    className="h-8 text-xs"
-                  />
-                </div>
-                <div>
-                  <p className="mb-1 text-xs text-muted-foreground">To</p>
-                  <Input
-                    type="date"
-                    value={to ?? ""}
-                    onChange={(e) =>
-                      column.setFilterValue(
-                        from || e.target.value
-                          ? [from ?? "", e.target.value]
-                          : undefined
-                      )
-                    }
-                    className="h-8 text-xs"
-                  />
-                </div>
-              </div>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar
+                mode="range"
+                selected={range}
+                onSelect={(r) =>
+                  column.setFilterValue(r?.from || r?.to ? r : undefined)
+                }
+                numberOfMonths={1}
+              />
             </PopoverContent>
           </Popover>
         </div>
